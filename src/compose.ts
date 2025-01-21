@@ -1,4 +1,3 @@
-import appDir        from '@itrocks/app-dir'
 import { inherits }  from '@itrocks/class-type'
 import { Type }      from '@itrocks/class-type'
 import { Uses }      from '@itrocks/uses'
@@ -16,20 +15,20 @@ const cache: Record<string, [CachedModule, CachedModule, string[]]> = {}
 
 const replacements: Record<string, Record<string, { script: string, export: string }[]>> = {}
 
-function configPath(config: string)
+function configPath(baseDir: string, config: string)
 {
-	return normalize(require.resolve((config[0] === '/') ? (appDir + config) : config))
+	return normalize(require.resolve((config[0] === '/') ? (baseDir + '/' + config) : config))
 }
 
 export default compose
-export function compose(config: ComposeConfig)
+export function compose(baseDir: string, config: ComposeConfig)
 {
 
 	// initReplacements
 	for (let [module, configReplacements] of Object.entries(config)) {
 		let moduleExport: string
 		[module, moduleExport] = module.split(':')
-		module = configPath(module)
+		module = configPath(baseDir, module)
 		moduleExport ??= 'default'
 		if (!replacements[module]) {
 			replacements[module] = {}
@@ -38,7 +37,7 @@ export function compose(config: ComposeConfig)
 		for (let replacement of Array.isArray(configReplacements) ? configReplacements : [configReplacements]) {
 			let replacementExport: string
 			[replacement, replacementExport] = replacement.split(':')
-			replacement = configPath(replacement)
+			replacement = configPath(baseDir, replacement)
 			replacementExport ??= 'default'
 			replacements[module][moduleExport].push({script: replacement, export: replacementExport})
 		}
