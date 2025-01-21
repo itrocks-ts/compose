@@ -5,3 +5,5 @@
 [![discord](https://img.shields.io/discord/1314141024020467782?color=7289da&label=discord&logo=discord&logoColor=white)](https://25.re/ditr)
 
 # compose
+
+Class compositions via configuration file, enabling mixins addition and module exports replacement.

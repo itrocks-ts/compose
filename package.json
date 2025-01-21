@@ -7,7 +7,7 @@
 		"@itrocks/class-type": "latest",
 		"@itrocks/uses": "latest"
 	},
-	"description": "",
+	"description": "Class compositions via configuration file, enabling mixins addition and module exports replacement",
 	"devDependencies": {
 		"@types/node": "^22.10",
 		"typescript": "^5.6"
@@ -27,8 +27,17 @@
 	],
 	"homepage": "https://it.rocks",
 	"keywords": [
+		"AOP",
+		"augmentation",
 		"backend",
-		"it.rocks"
+		"class",
+		"composition",
+		"configuration",
+		"exports",
+		"it.rocks",
+		"mixin",
+		"module",
+		"replacement"
 	],
 	"license": "LGPL-3.0-or-later",
 	"name": "@itrocks/compose",
@@ -42,5 +51,5 @@
 		"build:esm": "tsc -p tsconfig.esm.json"
 	},
 	"types": "./esm/compose.d.ts",
-	"version": "0.0.3"
+	"version": "0.0.4"
 }
