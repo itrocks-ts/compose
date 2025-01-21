@@ -1,3 +1,4 @@
+import appDir        from '@itrocks/app-dir'
 import { inherits }  from '@itrocks/class-type'
 import { Type }      from '@itrocks/class-type'
 import { Uses }      from '@itrocks/uses'
@@ -17,7 +18,7 @@ const replacements: Record<string, Record<string, { script: string, export: stri
 
 function configPath(config: string)
 {
-	return normalize(require.resolve((config[0] === '/') ? ('..' + config) : config))
+	return normalize(require.resolve((config[0] === '/') ? (appDir + config) : config))
 }
 
 export default compose
