@@ -2,7 +2,8 @@
 	"compilerOptions": {
 		"declaration": true,
 		"forceConsistentCasingInFileNames": true,
-		"moduleResolution": "node",
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
 		"skipLibCheck": true,
 		"strict": true,
 		"target": "ES2022"
