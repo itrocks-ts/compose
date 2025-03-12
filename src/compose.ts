@@ -68,19 +68,35 @@ export function compose(baseDir: string, config: ComposeConfig)
 			return original
 		}
 		// require original
-		const module: CachedModule = {__esModule: true}
+		const module: CachedModule = { __esModule: true }
 		const original = superRequire.call(this, ...arguments)
 		const replacementFiles = new Array<string>()
 		cache[file] = [module, original, replacementFiles]
 		Object.assign(module, original)
 		// compose
-		for (const [moduleExport, replacementEntries] of Object.entries(exportEntries)) {
-			const replacementTypes = replacementEntries.map((entry): Type =>
-			{
+		for (let [moduleExport, replacementEntries] of Object.entries(exportEntries)) {
+			if (!original[moduleExport]) {
+				if ((moduleExport === 'default') && !original.default) {
+					moduleExport = Object.keys(original)[0]
+				}
+				else {
+					throw 'Not found original ' + file + ':' + moduleExport
+				}
+			}
+			const replacementTypes: Type[] = replacementEntries.map(entry => {
 				if (!replacementFiles.includes(entry.script)) {
 					replacementFiles.push(entry.script)
 				}
-				return this.require(entry.script)[entry.export]
+				const replacementModule = this.require(entry.script)
+				if (!replacementModule[entry.export]) {
+					if ((entry.export === 'default') && !replacementModule.default) {
+						entry.export = Object.keys(replacementModule)[0]
+					}
+					else {
+						throw 'Not found replacement ' + entry.script + ':' + entry.export
+					}
+				}
+				return replacementModule[entry.export]
 			})
 			const originalType = original[moduleExport]
 			let replacementType: Type | undefined
@@ -90,9 +106,14 @@ export function compose(baseDir: string, config: ComposeConfig)
 					break
 				}
 			}
-			module[moduleExport] = replacementType
+			const replacementExport = replacementType
 				? (replacementTypes.length ? Uses(...replacementTypes)(replacementType) : replacementType)
 				: Uses(...replacementTypes)(originalType)
+			for (const [name, type] of Object.entries(original)) {
+				if (type === originalType) {
+					module[name] = replacementExport
+				}
+			}
 		}
 		return module
 	}
