@@ -20,7 +20,6 @@ function configPath(baseDir: string, config: string)
 	return normalize(require.resolve((config[0] === '/') ? (baseDir + '/' + config) : config))
 }
 
-export default compose
 export function compose(baseDir: string, config: ComposeConfig)
 {
 
