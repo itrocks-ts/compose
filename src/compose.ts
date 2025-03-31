@@ -29,9 +29,7 @@ export function compose(baseDir: string, config: ComposeConfig)
 		[module, moduleExport] = module.split(':')
 		module = configPath(baseDir, module)
 		moduleExport ??= 'default'
-		if (!replacements[module]) {
-			replacements[module] = {}
-		}
+		replacements[module] ??= {}
 		replacements[module][moduleExport] = []
 		for (let replacement of Array.isArray(configReplacements) ? configReplacements : [configReplacements]) {
 			let replacementExport: string
