@@ -10,7 +10,7 @@
 	"description": "Class compositions via configuration file, enabling mixins addition and module exports replacement",
 	"devDependencies": {
 		"@types/node": "^22.10",
-		"typescript": "^5.6"
+		"typescript": "~5.8"
 	},
 	"engines": {
 		"node": ">=18"
@@ -51,5 +51,5 @@
 		"build:esm": "tsc -p tsconfig.esm.json"
 	},
 	"types": "./esm/compose.d.ts",
-	"version": "0.0.12"
+	"version": "0.0.13"
 }
