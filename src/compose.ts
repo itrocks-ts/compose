@@ -46,8 +46,8 @@ export function compose(baseDir: string, config: ComposeConfig)
 	Module.prototype.require = function (file: string)
 	{
 		// resolve and normalize
-		if (file.startsWith('.')) {
-			file = this.path + (this.path.endsWith('/') ? file : ('/' + file))
+		if (file[0] === '.') {
+			file = this.path + ((this.path[this.path.length - 1] === '/') ? file : ('/' + file))
 		}
 		file = normalize(require.resolve(file))
 		// from cache
