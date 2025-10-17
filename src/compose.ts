@@ -1,7 +1,8 @@
-import { inherits }  from '@itrocks/class-type'
-import { Type }      from '@itrocks/class-type'
-import { Uses }      from '@itrocks/uses'
-import { normalize } from 'path'
+import { inherits }      from '@itrocks/class-type'
+import { isAnyFunction } from '@itrocks/class-type'
+import { Type }          from '@itrocks/class-type'
+import { Uses }          from '@itrocks/uses'
+import { normalize }     from 'path'
 
 type CachedModule = { __esModule: true } & Record<string, boolean | Type> // TODO Only __esModule should be bool
 
@@ -98,7 +99,10 @@ export function compose(baseDir: string, config: ComposeConfig)
 			const originalType = original[moduleExport]
 			let replacementType: Type | undefined
 			for (let replacementTypeIndex = 0; replacementTypeIndex < replacementTypes.length; replacementTypeIndex++) {
-				if (inherits(replacementTypes[replacementTypeIndex], originalType)) {
+				if (
+					isAnyFunction(replacementTypes[replacementTypeIndex])
+					|| inherits(replacementTypes[replacementTypeIndex], originalType)
+				) {
 					replacementType = replacementTypes.splice(replacementTypeIndex, 1)[0]
 					break
 				}
